@@ -8,6 +8,8 @@ COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app/
 WORKDIR /app
 EXPOSE 8000
+RUN adduser --disabled-password --no-create-home django-user
+
 
 ARG DEV=false
 RUN python -m ensurepip && \
