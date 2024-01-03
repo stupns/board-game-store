@@ -1,4 +1,23 @@
-FROM python:3.9.6-alpine3.14
+# Frontend build stage
+FROM node:14-alpine AS frontend
+
+WORKDIR /frontend
+
+# Copy only package files first to leverage Docker cache for dependencies
+COPY ./frontend/package.json ./frontend/package-lock.json ./
+
+# Install dependencies
+RUN npm install
+RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+
+# Copy the rest of the application code
+COPY frontend .
+
+# Build the frontend
+RUN npm run build
+
+# Backend build stage
+FROM python:3.9.6-alpine3.14 AS backend
 LABEL maintainer="stupns"
 
 ENV PYTHONUNBUFFERED 1
@@ -25,3 +44,7 @@ RUN python -m ensurepip && \
 ENV PATH="/py/bin:$PATH"
 
 USER django-user
+
+FROM backend AS app-image
+
+COPY --from=frontend /frontend/build /app/frontend
