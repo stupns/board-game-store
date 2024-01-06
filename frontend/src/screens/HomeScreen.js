@@ -11,12 +11,17 @@ function HomeScreen() {
 
     useEffect(()=>{
         async function fetchProducts() {
+            try {
+                const {data} = await axios.get(`http://localhost:8000/api/products/`)
+                setProducts(data)
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
 
-            const {data} = await axios.get('http://localhost:8000/api/products/')
-            setProducts(data)
         }
 
         fetchProducts()
+
     }, [])
 
     return (
