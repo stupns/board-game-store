@@ -27,7 +27,11 @@ COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app/
 WORKDIR /app
 EXPOSE 8000
-RUN adduser --disabled-password --no-create-home django-user
+RUN adduser --disabled-password --no-create-home django-user && \
+    mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
+    chown -R django-user:django-user /vol && \
+    chmod -R 755 /vol
 
 
 ARG DEV=false
