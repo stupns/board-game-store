@@ -1,13 +1,15 @@
 # Frontend build stage
-FROM node:14-alpine AS frontend
+FROM node:20-alpine AS frontend
 
 WORKDIR /frontend
 
 # Copy only package files first to leverage Docker cache for dependencies
-COPY ./frontend/package.json ./frontend/package-lock.json ./
+ COPY ./frontend/package.json ./frontend/package-lock.json ./
+
+# Copy the entire content of the frontend directory
+#COPY frontend .
 
 # Install dependencies
-RUN npm install
 RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
 
 # Copy the rest of the application code
