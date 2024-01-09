@@ -122,8 +122,6 @@ function ProductScreen() {
                   </Row>
                 )
         }
-
-
     </div>
   );
 }
