@@ -102,8 +102,7 @@ function ProductScreen() {
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>
-                                        )
-                                        }
+                                        )}
 
                                         <ListGroup.Item>
                                             <Button
@@ -115,8 +114,6 @@ function ProductScreen() {
                                                 Add to cart
                                             </Button>
                                         </ListGroup.Item>
-
-
                                     </ListGroup>
                                 </Card>
                             </Col>
