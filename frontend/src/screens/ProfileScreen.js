@@ -10,7 +10,6 @@ import Message from "../components/Message";
 
 function ProfileScreen() {
     const navigate = useNavigate();
-    const location = useLocation();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
