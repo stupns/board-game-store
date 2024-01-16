@@ -49,8 +49,6 @@ function RegisterScreen() {
             {error && <Message variant='danger'>{error}</Message>}
             {loading && <Loader/>}
             <Form onSubmit={submitHandler}>
-
-
                 <Form.Group controlId='name'>
                     <Form.Label>Name</Form.Label>
                     <Form.Control
@@ -108,7 +106,6 @@ function RegisterScreen() {
                 </Row>
 
             </Form>
-
         </FormContainer>
     );
 }
