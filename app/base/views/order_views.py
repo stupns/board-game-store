@@ -10,7 +10,7 @@ from rest_framework import status
 
 
 @api_view(['POST'])
-@permission_classes(['IsAuthenticated'])
+@permission_classes([IsAuthenticated])
 def addOrderItems(request):
     user = request.user
     data = request.data
@@ -41,7 +41,7 @@ def addOrderItems(request):
         )
         # (3) Create order items and set order to orderItem relationship
         for i in orderItems:
-            product = Product.pbjects.get(_id=i['product'])
+            product = Product.objects.get(_id=i['product'])
 
             item = OrderItem.objects.create(
                 product=product,
@@ -56,5 +56,5 @@ def addOrderItems(request):
             product.countInStock -= item.qty
             product.save()
 
-    serializer = OrderSerializer(order, many=True)
-    return Response(serializer.data)
+        serializer = OrderSerializer(order, many=False)
+        return Response(serializer.data)
