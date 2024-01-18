@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button, Form, Col} from 'react-bootstrap';
 
@@ -25,7 +25,6 @@ function PaymentScreen() {
         e.preventDefault()
         dispatch(savePaymentMethod(paymentMethod))
         navigate('/placeorder')
-
     }
     return (
         <FormContainer>

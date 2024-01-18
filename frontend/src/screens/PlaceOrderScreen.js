@@ -21,9 +21,12 @@ function PlaceOrderScreen() {
 
     cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2)
 
-    if (!cart.paymentMethod) {
-        navigate('/payment')
-    }
+    useEffect(() => {
+        if (!cart.paymentMethod) {
+            navigate('/payment')
+        }
+    }, [cart.paymentMethod, navigate]);
+
 
     useEffect(() => {
         if (success) {

@@ -66,8 +66,7 @@ function CartScreen() {
                                                 )
                                             )}
                                         >
-                                            {
-                                                typeof item.countInStock === 'number' && Array.from(
+                                            {typeof item.countInStock === 'number' && Array.from(
                                                     {length: item.countInStock}, (_, index) => (
                                                     <option key={index + 1} value={index + 1}>
                                                         {index + 1}
