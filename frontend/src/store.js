@@ -14,6 +14,7 @@ import {
     userRegisterReducer,
     userDetailsReducer,
     userUpdateProfileReducer,
+    userListReducer,
 } from './reducers/userReducers';
 
 
@@ -22,6 +23,7 @@ const reducer = combineReducers({
     productDetails: productDetailsReducers,
     cart: cartReducers,
     userLogin: userLoginReducer,
+    userList: userListReducer,
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdateProfile: userUpdateProfileReducer,

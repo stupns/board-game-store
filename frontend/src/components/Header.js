@@ -6,7 +6,6 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {logout} from '../actions/userActions';
 
 
-
 function Header() {
 
     const userLogin = useSelector(state => state.userLogin)
@@ -44,7 +43,7 @@ function Header() {
                                             </NavDropdown.Item>
                                         </LinkContainer>
                                         <NavDropdown.Item onClick={logoutHandler}>
-                                                Logout
+                                            Logout
                                         </NavDropdown.Item>
 
                                     </NavDropdown>
@@ -52,6 +51,27 @@ function Header() {
                                     <LinkContainer to='/login'>
                                         <Nav.Link><i className="fas fa-user"></i>Login</Nav.Link>
                                     </LinkContainer>
+                                )}
+
+                                {userInfo && userInfo.is_staff && (
+                                    <NavDropdown title='Admin' id='adminmenue'>
+                                        <LinkContainer to='/admin/userlist'>
+                                            <NavDropdown.Item>
+                                                Users
+                                            </NavDropdown.Item>
+                                        </LinkContainer>
+                                        <LinkContainer to='/admin/productlist'>
+                                            <NavDropdown.Item>
+                                                Products
+                                            </NavDropdown.Item>
+                                        </LinkContainer>
+                                        <LinkContainer to='/admin/orderlist'>
+                                            <NavDropdown.Item>
+                                                Orders
+                                            </NavDropdown.Item>
+                                        </LinkContainer>
+
+                                    </NavDropdown>
                                 )}
 
                             </Nav>
