@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Row, Col, Button, Form} from 'react-bootstrap';
+import {Row, Col, Button, Form, Table} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
+
 import {useDispatch, useSelector} from "react-redux";
 import {getUserDetails, updateUserProfile} from '../actions/userActions';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import {USER_UPDATE_PROFILE_RESET} from '../constants/userConstants';
+import {listMyOrders} from '../actions/orderActions';
 
 
 function ProfileScreen() {
@@ -28,20 +31,28 @@ function ProfileScreen() {
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
     const {success} = userUpdateProfile
 
+    const orderMyList = useSelector(state => state.orderMyList)
+    const {loading: loadingOrders, error: errorOrders, orders} = orderMyList
+
     useEffect(() => {
+        const fetchUserProfile = async () => {
             if (!userInfo) {
-                navigate('/login')
+                navigate('/login');
             } else {
                 if (!user || !user.name || success) {
-                    dispatch({type: USER_UPDATE_PROFILE_RESET})
-                    dispatch(getUserDetails('profile'))
+                    dispatch({type: USER_UPDATE_PROFILE_RESET});
+                    await dispatch(getUserDetails('profile'));
+                    await dispatch(listMyOrders());
                 } else {
-                    setName(user.name)
-                    setEmail(user.email)
+                    setName(user.name);
+                    setEmail(user.email);
                 }
             }
-        }, [dispatch, navigate, userInfo, user, success]
-    )
+        };
+
+        fetchUserProfile();
+    }, [dispatch, navigate, userInfo, user, success]);
+
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -119,6 +130,41 @@ function ProfileScreen() {
 
             <Col md={9}>
                 <h2>My Orders</h2>
+                {loadingOrders ? (
+                    <Loader/>
+                ) : errorOrders ? (
+                    <Message variant='danger'>{errorOrders}</Message>
+                ) : (
+                    <Table striped responsive className='table-sm'>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Paid</th>
+                            <th>Delivered</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {orders && orders.map((order) => (
+                            <tr key={order._id}>
+                                <td>{order._id}</td>
+                                <td>{order.createdAt.substring(0, 10)}</td>
+                                <td>{order.totalPrice}</td>
+                                <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
+                                    <i className='fas fa-times' style={{color: 'red'}}></i>
+                                )}</td>
+                                <td>
+                                    <LinkContainer to={`/order/${order._id}`}>
+                                        <Button className='btn-sm'>Details</Button>
+                                    </LinkContainer>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                )}
             </Col>
         </Row>
     );
