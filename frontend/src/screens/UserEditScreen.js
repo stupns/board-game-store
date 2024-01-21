@@ -9,7 +9,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import {USER_UPDATE_RESET} from '../constants/userConstants';
 
-function EditUserScreen() {
+function UserEditScreen() {
     const {id} = useParams();
     const userId = id
     const navigate = useNavigate()
@@ -101,4 +101,4 @@ function EditUserScreen() {
     );
 }
 
-export default EditUserScreen;
+export default UserEditScreen
