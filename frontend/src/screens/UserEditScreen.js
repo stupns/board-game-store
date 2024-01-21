@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Link, useLocation, useNavigate, useParams} from 'react-router-dom';
-import {Row, Col, Button, Form} from 'react-bootstrap';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Button, Form} from 'react-bootstrap';
 
 import FormContainer from '../components/FormContainer';
 import {useDispatch, useSelector} from "react-redux";
@@ -80,7 +80,7 @@ function EditUserScreen() {
                             />
                         </Form.Group>
 
-                        <Form.Group controlId='isadmib'>
+                        <Form.Group controlId='isadmin'>
                             <Form.Check
                                 type='checkbox'
                                 label='Is Admin'
