@@ -62,10 +62,9 @@ def addOrderItems(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getMyOrders(request):
-    user = request.user
-    orders = user.order_set.all()
+@permission_classes([IsAdminUser])
+def getOrders(request):
+    orders = Order.objects.all()
     serializers = OrderSerializer(orders, many=True)
     return Response(serializers.data)
 
