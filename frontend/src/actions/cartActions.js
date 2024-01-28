@@ -52,3 +52,23 @@ export const savePaymentMethod = (data) => (dispatch) => {
 
     localStorage.setItem('paymentMethod', JSON.stringify(data))
 }
+
+
+
+export const calculatePrices = () => (dispatch, getState) => {
+  const { cart } = getState();
+  const itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2);
+  const shippingPrice = (itemsPrice > 100 ? 0 : 10).toFixed(2);
+  const taxPrice = Number((0.082) * itemsPrice).toFixed(2);
+  const totalPrice = (Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)).toFixed(2);
+
+  dispatch({
+    type: 'CALCULATE_PRICES',
+    payload: {
+      itemsPrice,
+      shippingPrice,
+      taxPrice,
+      totalPrice,
+    },
+  });
+}

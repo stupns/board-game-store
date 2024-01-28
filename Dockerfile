@@ -1,5 +1,5 @@
 # Frontend build stage
-FROM node:20-alpine AS frontend
+FROM node:21.5.0-alpine
 
 WORKDIR /frontend
 
@@ -9,8 +9,9 @@ WORKDIR /frontend
 # Copy the entire content of the frontend directory
 #COPY frontend .
 
+RUN npm install -g npm@10.3.0
 # Install dependencies
-RUN npm install --save-dev @babel/plugin-proposal-private-property-in-object
+RUN npm install --save-dev @babel/plugin-proposal-private-methods --force
 
 # Copy the rest of the application code
 COPY frontend .
@@ -53,4 +54,4 @@ USER django-user
 
 FROM backend AS app-image
 
-COPY --from=frontend /frontend/build /app/frontend
+COPY --from=0 /frontend/build /app/frontend

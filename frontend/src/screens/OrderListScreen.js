@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import {listOrders} from '../actions/orderActions';
+import moment from "moment/moment";
 
 
 function OrderListScreen() {
@@ -58,21 +59,24 @@ function OrderListScreen() {
                                     <tr key={order._id}>
                                         <td>{order.name}</td>
                                         <td>{order.user && order.user.name}</td>
-                                        <td>{order.createdAt ? order.createdAt : 'N/A'}</td>
+                                        <td>{order.createdAt ?
+                                            moment(order.createdAt).format('MMMM Do, YYYY') : 'N/A'}</td>
                                         <td>{order.totalPrice}</td>
-                                        <td>{order.isPaid ? (order.paidAt ? order.paidAt : 'N/A') :
-                                            <i className='fas fa-times' style={{color: 'red'}}></i>}</td>
+                                        <td>{order.isPaid ?
+                                            (moment(order.paidAt).format('MMMM Do, YYYY') || 'N/A') :
+                                            <i className='fas fa-times' style={{color: 'red'}}></i>
+                                        }
+                                        </td>
 
                                         <td>
-                                            {order.isDelivered ? (
-                                                order.deliveredAt
-                                            ) : (
-                                                <i className="fas fa-check" style={{color: 'red'}}></i>
-                                            )}
+                                            {order.isDelivered ?
+                                                (moment(order.deliveredAt).format('MMMM Do, YYYY') || 'N/A') :
+                                                <i className='fas fa-times' style={{color: 'red'}}></i>
+                                            }
                                         </td>
                                         <td>
                                             <LinkContainer to={`/order/${order._id}`}>
-                                                <Button variant='light' className='btn-sm'>
+                                            <Button variant='light' className='btn-sm'>
                                                     Details
                                                 </Button>
                                             </LinkContainer>

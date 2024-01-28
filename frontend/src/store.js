@@ -1,57 +1,5 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import {
-    productListReducers,
-    productDetailsReducers,
-    productDeleteReducers,
-    productCreateReducers,
-    productUpdateReducers,
-} from './reducers/productReducers';
-import {cartReducers} from './reducers/cartReducers';
-import {
-    orderCreateReducer,
-    orderDetailsReducer,
-    orderPayReducer,
-    orderMyListReducer,
-    orderListReducer,
-    orderDeliverReducer,
-} from './reducers/orderReducers';
-import {
-    userLoginReducer,
-    userRegisterReducer,
-    userDetailsReducer,
-    userUpdateProfileReducer,
-    userListReducer,
-    userDeleteReducer,
-    userUpdateReducer,
-} from './reducers/userReducers';
-
-
-const reducer = combineReducers({
-    productList: productListReducers,
-    productDetails: productDetailsReducers,
-    productDelete: productDeleteReducers,
-    productCreate: productCreateReducers,
-    productUpdate: productUpdateReducers,
-
-    cart: cartReducers,
-
-    userLogin: userLoginReducer,
-    userList: userListReducer,
-    userRegister: userRegisterReducer,
-    userDetails: userDetailsReducer,
-    userUpdateProfile: userUpdateProfileReducer,
-    userDelete: userDeleteReducer,
-    userUpdate: userUpdateReducer,
-
-    orderCreate: orderCreateReducer,
-    orderDetails: orderDetailsReducer,
-    orderPay: orderPayReducer,
-    orderMyList: orderMyListReducer,
-    orderList: orderListReducer,
-    orderDeliver: orderDeliverReducer,
-})
+import {configureStore, } from '@reduxjs/toolkit'
+import reducer from "./reducers/index";
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ?
     JSON.parse(localStorage.getItem('cartItems')) : []
@@ -70,9 +18,11 @@ const initialState = {
     userLogin: {userInfo: userInfoFromStorage}
 }
 
-const middleware = [thunk]
 
-const store = createStore(reducer, initialState, composeWithDevTools(applyMiddleware(...middleware)))
+const store = configureStore({
+    reducer: reducer,
+    preloadedState: initialState,
+})
 
 
 export default store

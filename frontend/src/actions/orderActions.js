@@ -24,6 +24,8 @@ import {
     ORDER_DELIVER_REQUEST,
     ORDER_DELIVER_SUCCESS,
     ORDER_DELIVER_FAIL,
+
+    ORDER_UPDATE,
 } from '../constants/orderConstants';
 
 import {CART_CLEAR_ITEMS} from '../constants/cartConstants';
@@ -265,3 +267,14 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
         });
     }
 }
+
+export const updateOrder = (updatedOrder) => async (dispatch) => {
+    try {
+        dispatch({
+            type: ORDER_UPDATE,
+            payload: updatedOrder
+        });
+    } catch (error) {
+        // passed
+    }
+};
