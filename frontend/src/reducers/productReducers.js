@@ -33,7 +33,12 @@ export const productListReducers = (state = {products: []}, action) => {
             return {loading: true, products: []}
 
         case PRODUCT_LIST_SUCCESS:
-            return {loading: false, products: action.payload}
+            return {
+                loading: false,
+                products: action.payload.products,
+                page: action.payload.page,
+                pages: action.payload.pages
+            }
 
         case PRODUCT_LIST_FAIL:
             return {loading: false, error: action.payload}
@@ -94,7 +99,7 @@ export const productCreateReducers = (state = {}, action) => {
     }
 }
 
-export const productUpdateReducers = (state = {product:{}}, action) => {
+export const productUpdateReducers = (state = {product: {}}, action) => {
     switch (action.type) {
         case PRODUCT_UPDATE_REQUEST:
             return {loading: true}

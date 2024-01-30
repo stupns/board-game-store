@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 @api_view(['GET'])
 def getProducts(request):
@@ -17,8 +19,26 @@ def getProducts(request):
         query = ''
 
     products = Product.objects.filter(name__icontains=query)
+
+    page = request.query_params.get('page')
+    paginator = Paginator(products, 8)
+
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
+    if page == None:
+        page = 1
+
+    page = int(page)
+
     serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
+    return Response({'products': serializer.data,
+                     'page': products.number,
+                     'pages': paginator.num_pages})
 
 
 @api_view(['GET'])
