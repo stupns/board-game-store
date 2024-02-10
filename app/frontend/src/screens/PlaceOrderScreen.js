@@ -30,11 +30,19 @@ function PlaceOrderScreen() {
 
 
     useEffect(() => {
+<<<<<<< HEAD
         if (success && order && order._id) {
             navigate(`/order/${order._id}`)
             dispatch({type: ORDER_CREATE_RESET})
         }
     }, [success, navigate, dispatch, order])
+=======
+        if (success) {
+            navigate(`/order/${order._id}`)
+            dispatch({type: ORDER_CREATE_RESET})
+        }
+    }, [success, navigate, dispatch])
+>>>>>>> 9b6d810 (Merging frontend with backend.)
 
 
     const placeOrder = () => {

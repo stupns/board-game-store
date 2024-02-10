@@ -82,7 +82,11 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
             }
         }
 
+<<<<<<< HEAD
         await axios.delete(
+=======
+        const {} = await axios.delete(
+>>>>>>> 9b6d810 (Merging frontend with backend.)
             `/api/products/delete/${id}/`,
             config
         )

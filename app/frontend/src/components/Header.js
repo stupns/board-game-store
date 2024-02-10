@@ -1,7 +1,11 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+<<<<<<< HEAD
 import {Container, Nav, Navbar, NavDropdown} from 'react-bootstrap'
+=======
+import {Button, Container, Form, Nav, Navbar, NavDropdown} from 'react-bootstrap'
+>>>>>>> 9b6d810 (Merging frontend with backend.)
 import {LinkContainer} from 'react-router-bootstrap';
 import SearchBox from './SearchBox';
 
@@ -26,6 +30,7 @@ function Header() {
                     <LinkContainer to='/'>
                         <Navbar.Brand>BoardShop</Navbar.Brand>
                     </LinkContainer>
+<<<<<<< HEAD
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <SearchBox/>
@@ -33,6 +38,19 @@ function Header() {
                             <LinkContainer to='/cart'>
                                 <Nav.Link><i className="fas fa-shopping-cart"></i>Cart</Nav.Link>
                             </LinkContainer>
+=======
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav
+                            className="mr-auto"
+                            style={{maxHeight: '100px'}}
+                            navbarScroll
+                        >
+                            <LinkContainer to='/cart'>
+                                <Nav.Link><i className="fas fa-shopping-cart"></i>Cart</Nav.Link>
+                            </LinkContainer>
+
+>>>>>>> 9b6d810 (Merging frontend with backend.)
                             {userInfo ? (
                                 <NavDropdown title={userInfo.name} id='username'>
                                     <LinkContainer to='/profile'>
@@ -71,6 +89,11 @@ function Header() {
 
                                 </NavDropdown>
                             )}
+<<<<<<< HEAD
+=======
+                            <SearchBox/>
+
+>>>>>>> 9b6d810 (Merging frontend with backend.)
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

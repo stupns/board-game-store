@@ -64,7 +64,11 @@ function OrderScreen() {
                 addPayPalScript()
             }
         }
+<<<<<<< HEAD
     }, [order, orderId, dispatch, successPay, successDeliver, navigate, sdkReady, userInfo])
+=======
+    }, [order, orderId, dispatch, successPay, successDeliver, navigate, sdkReady])
+>>>>>>> 9b6d810 (Merging frontend with backend.)
 
     const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(orderId, paymentResult))

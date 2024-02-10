@@ -1,5 +1,9 @@
 import {Container} from "react-bootstrap";
+<<<<<<< HEAD
 import {Routes, Route, HashRouter} from "react-router-dom";
+=======
+import {Routes, Route, BrowserRouter} from "react-router-dom";
+>>>>>>> 9b6d810 (Merging frontend with backend.)
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -22,7 +26,11 @@ import OrderListScreen from './screens/OrderListScreen';
 
 function App() {
     return (
+<<<<<<< HEAD
         <HashRouter>
+=======
+        <BrowserRouter>
+>>>>>>> 9b6d810 (Merging frontend with backend.)
             <Header/>
             <main className="py-3">
                 <Container>
@@ -48,7 +56,11 @@ function App() {
                 </Container>
             </main>
             <Footer/>
+<<<<<<< HEAD
         </HashRouter>
+=======
+        </BrowserRouter>
+>>>>>>> 9b6d810 (Merging frontend with backend.)
     );
 }
 
