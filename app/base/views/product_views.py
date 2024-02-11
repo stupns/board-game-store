@@ -13,10 +13,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 @api_view(['GET'])
 def getProducts(request):
-    query = request.query_params.get('keyword')
-    print('query:', query)
-    if query == None:
-        query = ''
+    query = request.query_params.get('keyword', '')
 
     products = Product.objects.filter(name__icontains=query)
 
@@ -30,8 +27,10 @@ def getProducts(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
 
-    if page == None:
+    if page is None:
         page = 1
+    else:
+        page = int(page)
 
     page = int(page)
 

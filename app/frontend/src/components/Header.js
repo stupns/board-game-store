@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Button, Container, Form, Nav, Navbar, NavDropdown} from 'react-bootstrap'
+import {Container, Nav, Navbar, NavDropdown} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap';
 import SearchBox from './SearchBox';
 
@@ -26,17 +26,13 @@ function Header() {
                     <LinkContainer to='/'>
                         <Navbar.Brand>BoardShop</Navbar.Brand>
                     </LinkContainer>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav
-                            className="mr-auto"
-                            style={{maxHeight: '100px'}}
-                            navbarScroll
-                        >
+                        <SearchBox/>
+                        <Nav className="mx-auto">
                             <LinkContainer to='/cart'>
                                 <Nav.Link><i className="fas fa-shopping-cart"></i>Cart</Nav.Link>
                             </LinkContainer>
-
                             {userInfo ? (
                                 <NavDropdown title={userInfo.name} id='username'>
                                     <LinkContainer to='/profile'>
@@ -75,8 +71,6 @@ function Header() {
 
                                 </NavDropdown>
                             )}
-                            <SearchBox/>
-
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

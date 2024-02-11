@@ -64,7 +64,7 @@ function OrderScreen() {
                 addPayPalScript()
             }
         }
-    }, [order, orderId, dispatch, successPay, successDeliver, navigate, sdkReady])
+    }, [order, orderId, dispatch, successPay, successDeliver, navigate, sdkReady, userInfo])
 
     const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(orderId, paymentResult))
