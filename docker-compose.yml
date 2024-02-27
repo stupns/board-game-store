@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.9.6"
 
 services:
   app:
@@ -12,20 +12,18 @@ services:
     volumes:
       - ./app:/app
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py  runserver 0.0.0.0:8000"
     depends_on:
       - frontend
 
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile
-      target: frontend-dev
     ports:
       - "3000:3000"
     volumes:
-      - ./app/frontend:/app
-    command: npm start
+      - ./frontend:/frontend
+    command: sh -c "npm start"
 
   nginx:
     image: nginx:latest

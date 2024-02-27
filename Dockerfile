@@ -1,23 +1,25 @@
 # Frontend build stage
-FROM node:21.5.0-alpine AS frontend-dev
+FROM node:21.5.0-alpine
 
-WORKDIR /app
+WORKDIR /frontend
 
 # Copy only package files first to leverage Docker cache for dependencies
-COPY ./app/frontend/package.json ./app/frontend/package-lock.json ./
+ COPY ./frontend/package.json ./frontend/package-lock.json ./
 
+# Copy the entire content of the frontend directory
+#COPY frontend .
+
+RUN npm install -g npm@10.3.0
 # Install dependencies
-RUN npm install --legacy-peer-deps
+RUN npm install --save-dev @babel/plugin-proposal-private-methods --force
 
 # Copy the rest of the application code
-COPY ./app/frontend .
-
+COPY frontend .
 
 # Build the frontend
 RUN npm run build
 
-
-# Backend build stage (залишається незмінним)
+# Backend build stage
 FROM python:3.9.6-alpine3.14 AS backend
 LABEL maintainer="stupns"
 
@@ -33,6 +35,7 @@ RUN adduser --disabled-password --no-create-home django-user && \
     mkdir -p /vol/web/static && \
     chown -R django-user:django-user /vol && \
     chmod -R 755 /vol
+
 
 ARG DEV=false
 RUN python -m ensurepip && \
@@ -51,4 +54,4 @@ USER django-user
 
 FROM backend AS app-image
 
-COPY --from=frontend-dev /app/build /app/frontend/build
+COPY --from=0 /frontend/build /app/frontend
