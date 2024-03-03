@@ -1,17 +1,16 @@
 # Frontend build stage
 FROM node:21.5.0-alpine AS frontend-dev
 
-WORKDIR /frontend
+WORKDIR /app
 
 # Copy only package files first to leverage Docker cache for dependencies
- COPY ./frontend/package.json ./frontend/package-lock.json ./
-
+COPY ./app/frontend/package.json ./app/frontend/package-lock.json ./
 
 # Install dependencies
 RUN npm install --save-dev @babel/plugin-proposal-private-methods --force
 
 # Copy the rest of the application code
-COPY ./frontend .
+COPY ./app/frontend .
 
 # Build the frontend
 RUN npm run build
@@ -22,17 +21,18 @@ LABEL maintainer="stupns"
 
 ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt /tmp/
-COPY ./requirements.dev.txt /tmp/requirements.dev.txt
-COPY ./app /app/
-WORKDIR /app
-EXPOSE 8000
 RUN adduser --disabled-password --no-create-home django-user && \
     mkdir -p /vol/web/media && \
     mkdir -p /vol/web/static && \
     chown -R django-user:django-user /vol && \
     chmod -R 755 /vol
 
+WORKDIR /app
+
+COPY --from=frontend-dev /app/build /app/frontend/build
+
+COPY ./requirements.txt /tmp/
+COPY ./requirements.dev.txt /tmp/
 
 ARG DEV=false
 RUN python -m ensurepip && \
@@ -47,8 +47,13 @@ RUN python -m ensurepip && \
 
 ENV PATH="/py/bin:$PATH"
 
+COPY ./app .
+
+RUN chown -R django-user:django-user /app
+
 USER django-user
+
+EXPOSE 8000
 
 FROM backend AS app-image
 
-COPY --from=0 /frontend/build /app/frontend/build

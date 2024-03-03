@@ -4,17 +4,17 @@ services:
   app:
     build:
       context: .
+      dockerfile: Dockerfile
+      target: backend
       args:
         - DEV=true
-      target: app-image
     ports:
       - "8000:8000"
     volumes:
       - ./app:/app
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
-    depends_on:
-      - frontend
+  
 
   frontend:
     build:
@@ -25,7 +25,7 @@ services:
       - "3000:3000"
     volumes:
       - ./app/frontend:/app
-    command: npm start
+    command: npm run start
 
   nginx:
     image: nginx:latest
@@ -35,3 +35,4 @@ services:
       - "80:80"
     depends_on:
       - app
+      - frontend
