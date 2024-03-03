@@ -1,20 +1,17 @@
 # Frontend build stage
-FROM node:21.5.0-alpine
+FROM node:21.5.0-alpine AS frontend-dev
 
 WORKDIR /frontend
 
 # Copy only package files first to leverage Docker cache for dependencies
  COPY ./frontend/package.json ./frontend/package-lock.json ./
 
-# Copy the entire content of the frontend directory
-#COPY frontend .
 
-RUN npm install -g npm@10.3.0
 # Install dependencies
 RUN npm install --save-dev @babel/plugin-proposal-private-methods --force
 
 # Copy the rest of the application code
-COPY frontend .
+COPY ./frontend .
 
 # Build the frontend
 RUN npm run build
@@ -54,4 +51,4 @@ USER django-user
 
 FROM backend AS app-image
 
-COPY --from=0 /frontend/build /app/frontend
+COPY --from=0 /frontend/build /app/frontend/build
