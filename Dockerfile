@@ -38,12 +38,13 @@ ARG DEV=false
 RUN python -m ensurepip && \
     python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
-    apk --update add --virtual build-dependencies python3-dev build-base \
-    && /py/bin/pip install --no-cache-dir -r /tmp/requirements.txt \
-    && if [ "$DEV" = "true" ]; then /py/bin/pip install -r /tmp/requirements.dev.txt; fi \
-    && rm -rf /tmp \
-    && apk del build-dependencies \
-    && rm -rf /var/cache/apk/* /tmp
+    apk add --update --no-cache postgresql-client jpeg-dev && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+    build-base postgresql-dev musl-dev zlib zlib-dev linux-headers && \
+    /py/bin/pip install --no-cache-dir -r /tmp/requirements.txt && \
+    if [ "$DEV" = "true" ]; then /py/bin/pip install -r /tmp/requirements.dev.txt; fi && \
+    apk del .tmp-build-deps && \
+    rm -rf /var/cache/apk/* /tmp
 
 ENV PATH="/py/bin:$PATH"
 

@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+
   app:
     build:
       context: .
@@ -12,9 +25,17 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
-  
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -36,3 +57,6 @@ services:
     depends_on:
       - app
       - frontend
+
+volumes:
+  postgres_data:
