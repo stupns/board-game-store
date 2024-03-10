@@ -50,9 +50,15 @@ ENV PATH="/py/bin:$PATH"
 
 COPY ./app .
 
+# Create and copy the entrypoint.sh file
+COPY app/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 RUN chown -R django-user:django-user /app
+CMD ["/bin/sh", "/app/entrypoint.sh"]
 
 USER django-user
+
 
 EXPOSE 8000
 
